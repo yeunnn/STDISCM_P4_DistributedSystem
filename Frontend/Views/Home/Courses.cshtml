@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Courses";
+    var courses = Model as Newtonsoft.Json.Linq.JArray;
+    var enrolledCourses = ViewBag.EnrolledCourses as Newtonsoft.Json.Linq.JArray;
+}
+<h1>Available Courses</h1>
+@if (TempData["Error"] != null)
+{
+    <p style="color:red;"><strong>Error:</strong> @TempData["Error"]</p>
+}
+@if (TempData["Message"] != null)
+{
+    <p style="color:green;"><strong>Message:</strong> @TempData["Message"]</p>
+}
+<ul>
+    @foreach (var course in courses)
+    {
+        var courseId = course["courseId"]?.ToString();
+        bool isEnrolled = false;
+        if (enrolledCourses != null)
+        {
+            foreach (var enrolled in enrolledCourses)
+            {
+                if (enrolled.ToString() == courseId)
+                {
+                    isEnrolled = true;
+                    break;
+                }
+            }
+        }
+        <li>
+            @course["courseId"]: @course["name"]
+            @if (Context.Session.GetString("Role") == "student")
+            {
+                if (isEnrolled)
+                {
+                    <span> (Enrolled)</span>
+                }
+                else
+                {
+                    <form method="post" action="/Home/Enroll" style="display:inline;">
+                        <input type="hidden" name="courseId" value="@courseId" />
+                        <button type="submit">Enroll</button>
+                    </form>
+                }
+            }
+        </li>
+    }
+</ul>
+<a href="/Home/Dashboard">Back to Dashboard</a>

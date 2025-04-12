@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    var role = Context.Session.GetString("Role");
+}
+<h1>Dashboard</h1>
+<p>Welcome, @Context.Session.GetString("Username") (@role)</p>
+<nav>
+    <a href="/Home/Courses">View Courses</a>
+    @if (role == "student")
+    {
+        <span>| <a href="/Home/Grades">View Grades</a></span>
+    }
+    else if (role == "faculty")
+    {
+        <span>| <a href="/Home/StudentDetails">View Student Details</a></span>
+        <span>
+            | <!-- Upload Grade form can be directly embedded or linked -->
+            <form method="post" action="/Home/UploadGrade" style="display:inline;">
+                <input type="text" name="studentUsername" placeholder="Student Username" required />
+                <input type="text" name="courseId" placeholder="Course ID" required />
+                <input type="text" name="grade" placeholder="Grade" required />
+                <button type="submit">Upload Grade</button>
+            </form>
+        </span>
+    }
+    <span>| <a href="/Home/Logout">Logout</a></span>
+</nav>
+@if (ViewBag.Error != null)
+{
+    <p style="color:red;"><strong>Error:</strong> @ViewBag.Error</p>
+}
+@if (TempData["Message"] != null)
+{
+    <p style="color:green;"><strong>Message:</strong> @TempData["Message"]</p>
+}

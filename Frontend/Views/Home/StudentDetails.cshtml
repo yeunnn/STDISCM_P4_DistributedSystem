@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Student Details";
+    var details = Model as Newtonsoft.Json.Linq.JArray;
+}
+<h1>Student Details</h1>
+@if (ViewBag.Error != null)
+{
+    <p style="color:red;"><strong>Error:</strong> @ViewBag.Error</p>
+}
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Enrollments</th>
+            <th>Grades</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in details)
+        {
+            <tr>
+                <!-- Notice we're using lowercase property names now -->
+                <td>@student["username"]</td>
+                <td>
+                    @if (student["enrollments"] != null && student["enrollments"].HasValues)
+                    {
+                        <ul>
+                            @foreach (var enroll in student["enrollments"])
+                            {
+                                <li>@enroll</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>None</span>
+                    }
+                </td>
+                <td>
+                    @if (student["grades"] != null && student["grades"].HasValues)
+                    {
+                        <ul>
+                            @foreach (var grade in student["grades"])
+                            {
+                                <li>Course @grade["courseId"]: @grade["value"]</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>None</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Home/Dashboard">Back to Dashboard</a>

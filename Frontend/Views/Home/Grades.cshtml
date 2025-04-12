@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Grades";
+    var grades = Model as Newtonsoft.Json.Linq.JArray;
+}
+<h1>Your Grades</h1>
+@if (ViewBag.Error != null)
+{
+    <p style="color:red;"><strong>Error:</strong> @ViewBag.Error</p>
+}
+<ul>
+    @foreach (var item in grades)
+    {
+        <li>Course @item["courseId"]: @item["value"]</li>
+    }
+</ul>
+<a href="/Home/Dashboard">Back to Dashboard</a>
