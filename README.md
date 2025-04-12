@@ -15,9 +15,6 @@ Use of networked virtual machines/bare-metal computers is recommended.
 
 When a node is down, on the features supported by that node should stop working, but the rest of the application should still work.
 
-## Slides
-https://docs.google.com/presentation/d/1jRAXIWoUqALTKpbHmSpHNAFz2he88n4_/edit?usp=sharing&ouid=101928301120544085464&rtpof=true&sd=true
-
 ## Dependencies and Prerequisites
 
 - **.NET 6 or higher**
